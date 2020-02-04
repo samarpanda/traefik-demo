@@ -1,0 +1,62 @@
+version: "3.2"
+
+services:
+  proxy:
+    image: traefik:v2.0
+    command: 
+      - "--log.level=INFO"
+      - "--api.insecure=true"
+      - "--providers.docker" # Tells Traefik to listen to docker
+    ports:
+      - "3000:80"
+      - "3001:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - internal
+      - default
+
+  whoami:
+    image: containous/whoami
+    labels: 
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+    networks: 
+      - internal
+  
+  pino:
+    build:
+      context: ./pino
+    image: my-pino
+    env_file: docker-compose.env
+    ports:
+      - "4000" # Internal port of docker container
+    labels: 
+      - "traefik.enable=true"
+      - "traefik.backend=pino"
+      - "traefik.http.routers.pino.rule=Host(`pino.docker.localhost`)"
+      #- "traefik.frontend.rule=Host:pino.localhost"
+    depends_on:
+      - proxy
+    networks: 
+      - internal
+
+  mino:
+    build:
+      context: ./mino
+    image: my-mino
+    ports:
+      - "5000" # Internal port of docker container 
+    labels: 
+      - "traefik.enable=true"
+      - "traefik.backend=mino"
+      - "traefik.http.routers.mino.rule=Host(`mino.docker.localhost`)"
+      #- "traefik.frontend.rule=Host:mino.localhost"
+    depends_on: 
+      - proxy
+    networks: 
+      - internal
+    
+
+networks:
+  internal: 

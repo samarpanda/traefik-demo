@@ -1,0 +1,17 @@
+{
+  "name": "pino",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^19.0.5",
+    "axios": "^0.19.2",
+    "hapi-pino": "^6.3.0"
+  }
+}
