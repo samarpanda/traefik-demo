@@ -5,8 +5,9 @@ services:
     image: traefik:v2.0
     command: 
       - "--log.level=INFO"
-      - "--api.insecure=true"
-      - "--providers.docker" # Tells Traefik to listen to docker
+      - "--api.insecure=true" # Enabling insecure api, NOT RECOMMENDED FOR PRODUCTION
+      - "--providers.docker" # Enabling docker as the provider for traefik
+      - "--providers.docker.exposedbydefault=false" # Don't expose every container to traefik, only expose enabled ones
     ports:
       - "3000:80"
       - "3001:8080"
