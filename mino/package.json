@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hapi/hapi": "^19.2.0",
+    "@hapi/hapi": "^20.0.0",
     "axios": "^0.19.2",
     "hapi-pino": "^6.5.0"
   }
